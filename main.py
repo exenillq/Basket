@@ -17,7 +17,7 @@ from aiogram.filters import Command
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 
 # لینک منبع دریافت پروکسی‌ها را اینجا وارد کنید
-PROXY_SOURCE_URL = "https://your-proxy-source-link.com/proxies.txt"
+PROXY_SOURCE_URL = "https://erlink.s3.ir-thr-at1.arvanstorage.ir/%DB%B6%20%288%29.txt?versionId="
 
 router = Router()
 
