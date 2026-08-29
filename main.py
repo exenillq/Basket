@@ -16,6 +16,9 @@ from aiogram.filters import Command
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 
+# لینک منبع دریافت پروکسی‌ها را اینجا وارد کنید
+PROXY_SOURCE_URL = "https://your-proxy-source-link.com/proxies.txt"
+
 router = Router()
 
 SESSION_BASE_DIR = "basket_sessions"
@@ -23,116 +26,61 @@ if os.path.exists(SESSION_BASE_DIR):
     shutil.rmtree(SESSION_BASE_DIR, ignore_errors=True)
 os.makedirs(SESSION_BASE_DIR, exist_ok=True)
 
-PROXY_LIST = [
+# پروکسی‌های پشتیبان در صورت عدم دریافت از لینک
+DEFAULT_PROXY_LIST = [
     "http://Eyi7eecyfihd:pe1rm71fd72ka0k@209.50.177.175:3129",
     "http://eyi7eecyfihd:pe1rm71fd72ka0k@65.111.6.98:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@65.111.15.99:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@45.3.47.48:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@45.3.35.213:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@209.50.160.216:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@45.3.51.133:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@209.50.180.169:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@216.26.232.240:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@45.3.52.87:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@216.26.251.136:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@209.50.191.84:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@65.111.28.133:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@45.3.37.181:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@216.26.224.92:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@216.26.255.106:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@45.3.47.128:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@45.3.38.17:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@209.50.170.180:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@209.50.172.165:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@45.3.37.53:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@209.50.169.0:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@216.26.227.194:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@45.3.53.50:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@209.50.180.78:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@209.50.188.218:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@216.26.249.209:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@45.3.33.21:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@45.3.39.129:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@209.50.191.208:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@209.50.186.116:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@104.167.19.176:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@104.207.58.95:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@65.111.13.165:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@45.3.32.145:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@104.207.33.227:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@45.3.45.178:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@45.3.38.33:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@45.3.47.195:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@217.181.91.121:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@104.207.44.69:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@216.26.230.228:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@45.3.53.28:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@209.50.187.186:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@216.26.235.149:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@209.50.174.138:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@104.207.37.105:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@45.3.37.240:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@45.3.40.40:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@104.207.56.236:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@216.26.242.198:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@45.3.34.203:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@209.50.171.62:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@216.26.239.126:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@209.50.169.3:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@216.26.244.93:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@104.207.53.140:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@217.181.91.129:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@104.207.44.251:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@209.50.173.23:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@104.207.46.156:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@216.26.245.137:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@65.111.8.250:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@209.50.162.29:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@216.26.243.249:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@216.26.232.50:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@193.56.28.28:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@65.111.13.253:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@216.26.242.2:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@104.207.34.129:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@65.111.29.199:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@45.3.42.143:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@65.111.29.224:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@45.3.36.239:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@65.111.4.143:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@65.111.14.79:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@65.111.1.18:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@104.207.54.229:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@45.3.42.147:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@216.26.227.153:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@45.3.55.53:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@65.111.7.244:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@209.50.182.193:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@104.207.36.52:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@216.26.225.85:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@209.50.181.217:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@104.207.62.25:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@104.207.58.236:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@216.26.244.191:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@65.111.25.234:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@104.207.39.139:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@45.3.38.200:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@65.111.21.224:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@104.207.40.150:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@209.50.191.58:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@104.207.58.48:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@209.50.180.171:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@65.111.4.154:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@209.50.189.21:3129",
-    "http://eyi7eecyfihd:pe1rm71fd72ka0k@45.3.40.101:3129"
+    "http://eyi7eecyfihd:pe1rm71fd72ka0k@45.3.47.48:3129"
 ]
 
+def load_proxies_from_url(url):
+    """دریافت و استانداردسازی پروکسی‌ها از لینک اینترنتی"""
+    if not url or not url.startswith("http"):
+        return DEFAULT_PROXY_LIST
+
+    try:
+        res = requests.get(url, timeout=10)
+        if res.status_code != 200:
+            return DEFAULT_PROXY_LIST
+
+        lines = res.text.strip().splitlines()
+        proxies = []
+
+        for line in lines:
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+
+            if line.startswith("http://") or line.startswith("https://") or line.startswith("socks5://"):
+                proxies.append(line)
+            else:
+                parts = line.split(":")
+                # پشتیبانی از فرمت IP:Port:User:Pass
+                if len(parts) == 4:
+                    ip, port, user, pwd = parts
+                    proxies.append(f"http://{user}:{pwd}@{ip}:{port}")
+                # پشتیبانی از فرمت User:Pass@IP:Port
+                elif "@" in line:
+                    proxies.append(f"http://{line}")
+                elif len(parts) == 2:
+                    proxies.append(f"http://{parts[0]}:{parts[1]}")
+
+        return proxies if proxies else DEFAULT_PROXY_LIST
+    except Exception:
+        return DEFAULT_PROXY_LIST
+
+PROXY_LIST = load_proxies_from_url(PROXY_SOURCE_URL)
+
 def get_random_proxy():
+    global PROXY_LIST
+    if not PROXY_LIST:
+        PROXY_LIST = DEFAULT_PROXY_LIST
     selected = random.choice(PROXY_LIST)
     return {"http": selected, "https": selected}
 
 def fetch_data(url):
     try:
-        res = requests.get(url, timeout=15)
+        res = requests.get(url, timeout=10)
         if res.status_code == 200:
             return res.json()
     except Exception:
@@ -217,13 +165,13 @@ class OkalaAPI:
         for attempt in range(3):
             current_proxy = get_random_proxy()
             try:
-                res = requests.request(method, url, headers=headers, proxies=current_proxy, timeout=45, **kwargs)
+                res = requests.request(method, url, headers=headers, proxies=current_proxy, timeout=12, **kwargs)
                 self.log_request(method, url, res.status_code, res.text)
                 
                 if res.status_code == 200:
                     try:
                         return 200, res.json()
-                    except:
+                    except Exception:
                         return 200, {}
                 elif res.status_code == 401:
                     return 401, {}
@@ -231,7 +179,7 @@ class OkalaAPI:
                     return res.status_code, res.text 
             except Exception as e:
                 self.log_request(method, url, "EXCEPTION", str(e))
-                time.sleep(1.5)
+                time.sleep(0.3)
                 continue
                 
         return 0, "Network Error"
@@ -301,8 +249,6 @@ class OkalaAPI:
 
 
 def worker_copy_basket(target_url, api, template_data):
-    time.sleep(random.uniform(0.1, 1.0))
-    
     data = fetch_data(target_url)
     if not data:
         return target_url, "error_fetch", None
@@ -333,7 +279,7 @@ def worker_copy_basket(target_url, api, template_data):
             c_status, _ = api.add_to_cart(acc_token, uid, template_data['store_id'], item['productId'])
             if c_status == 200:
                 added_count += 1
-            time.sleep(random.uniform(0.3, 0.8))
+            time.sleep(0.05)
 
     if added_count == 0 and len(template_data['items']) > 0:
         return target_url, "error_cart", data
@@ -342,6 +288,12 @@ def worker_copy_basket(target_url, api, template_data):
 
 
 def process_all_links(session_dir, template_url, target_urls):
+    global PROXY_LIST
+    # بارگذاری مجدد پروکسی‌ها در ابتدای هر اجرای دسته جمعی
+    updated_proxies = load_proxies_from_url(PROXY_SOURCE_URL)
+    if updated_proxies:
+        PROXY_LIST = updated_proxies
+
     api = OkalaAPI()
 
     template_data_json = fetch_data(template_url)
@@ -432,7 +384,8 @@ def process_all_links(session_dir, template_url, target_urls):
     with open(os.path.join(updated_dir, "template_account.json"), "w", encoding="utf-8") as f:
         json.dump(template_data_json, f, ensure_ascii=False, indent=2)
 
-    with ThreadPoolExecutor(max_workers=5) as executor:
+    # افزایش تعداد پردازش همزمان به 20 برای افزایش سرعت
+    with ThreadPoolExecutor(max_workers=20) as executor:
         futures = {
             executor.submit(worker_copy_basket, url, api, template_data): url 
             for url in target_urls
@@ -541,3 +494,4 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
